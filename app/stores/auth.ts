@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
       const api = useApi();
       const res = await api.post("/login", { email, password });
       this.token = res.data.token;
+      localStorage.setItem("token", res.data.toke);
       return res.data;
     },
 

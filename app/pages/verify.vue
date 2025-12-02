@@ -71,7 +71,7 @@ async function verify() {
 
         <button
           type="submit"
-          class="w-full py-2.5 rounded-lg border-2 border-teal-400 text-teal-700 font-medium
+          class="w-full .5 rounded-lg border-2 border-teal-400 text-teal-700 font-medium
                  hover:bg-teal-50 transition flex items-center justify-center"
         >
           Verify

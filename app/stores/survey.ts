@@ -9,7 +9,10 @@ export const useSurveyStore = defineStore("survey", {
     description: "",
     is_live: true,
     created_by: 1,
-    fields: [] as SurveyField[]
+    fields: [] as SurveyField[],
+    survey: null,     // full survey info
+    answers: [] as { field_id: number; answer: any }[],      // user answers { questionId: value }
+    loading: false,
   }),
 
   actions: {
@@ -56,9 +59,27 @@ export const useSurveyStore = defineStore("survey", {
       return api.post("/api/survey/create", payload);
     },
 
-    async submitSurvey(id: number, submission: any) {
+    async fetchSurvey(id: number) {
+      this.loading = true;
       const api = useApi();
-      return api.post(`/api/survey/${id}/submit`, submission);
+      try {
+        const res = await api.get(`/api/survey/${id}`);
+        this.survey = res.data;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    setAnswer(fieldId: number, value: any) {
+      this.answers.push({
+          field_id: fieldId,
+          answer: value,
+        });
+    },
+
+    async submitSurvey(id: number) {
+      const api = useApi();
+      return api.post(`/api/survey/${id}/submit`, this.answers);
     },
   },
 });

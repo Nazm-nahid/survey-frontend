@@ -3,7 +3,7 @@ import { useApi } from "~/composables/useApi";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: null as string | null,
+    token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
     user: null as any,
   }), 
 
@@ -22,13 +22,18 @@ export const useAuthStore = defineStore("auth", {
       const api = useApi();
       const res = await api.post("/login", { email, password });
       this.token = res.data.token;
-      localStorage.setItem("token", res.data.toke);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", res.data.token);
+      }
       return res.data;
     },
 
     logout() {
       this.token = null;
       this.user = null;
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+      }
     },
   },
 });

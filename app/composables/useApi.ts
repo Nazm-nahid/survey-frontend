@@ -12,6 +12,8 @@ export const useApi = () => {
   api.interceptors.request.use((config) => {
     if (auth.token) {
       config.headers.Authorization = `Bearer ${auth.token}`;
+    } else {
+         navigateTo("/login"); 
     }
     return config;
   });

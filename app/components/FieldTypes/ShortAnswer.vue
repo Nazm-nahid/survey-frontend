@@ -1,6 +1,6 @@
 <template>
   <div class="text-gray-500 italic">
-    Short answer (user types text)
+    
   </div>
 </template>
 

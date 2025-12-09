@@ -1,40 +1,46 @@
 <template>
   <div class="space-y-4">
 
-    <input class="w-full border p-2"
+    <input class="w-full rounded-lg shadow p-2"
            v-model="field.title"
            placeholder="Question title" />
 
     <textarea v-model="field.description"
-              class="w-full border p-2"
+              class="w-full rounded-lg shadow p-2"
               placeholder="Description (optional)"></textarea>
 
-    <component :is="componentForType" :field="field" />
+    <div class="flex justify-between">
+      <label class="flex items-center gap-2 text-gray-500">
+        <input type="checkbox" v-model="field.is_required" />
+        Required
+      </label>
+      <label class="flex items-center gap-2 bg-red-200 shadow rounded-lg px-2 text-gray-500">
+        {{field.type}}
+      </label>
+    </div>
 
-    <label class="flex items-center gap-2">
-      <input type="checkbox" v-model="field.is_required" />
-      Required
-    </label>
+    <component :is="componentForType" :field="field" />
+    
 
     <!-- Conditions -->
-    <div class="bg-gray-50 p-3 rounded border">
+    <!-- <div class="bg-gray-50 p-3 rounded-lg shadow">
       <h4 class="font-medium mb-2">Conditions</h4>
 
       <div v-for="(cond, i) in field.conditions"
            :key="i"
-           class="text-xs bg-white border p-2 rounded mb-1">
+           class="text-xs bg-white rounded-lg shadow p-2 mb-1">
         {{ cond }}
       </div>
 
       <div class="flex gap-2 mt-2">
         <input v-model="newCondition"
                placeholder="if @value == 5 visible -> 3,4,5"
-               class="flex-1 border p-1 text-sm" />
-        <button class="text-blue-600 text-sm" @click="addCondition">
+               class="flex-1 rounded-lg shadow p-1 text-sm" />
+        <button class="btn text-blue-600 text-sm" @click="addCondition">
           Add
         </button>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>

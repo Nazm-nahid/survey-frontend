@@ -35,20 +35,20 @@ async function submit() {
 
 <template>
   <div class="min-h-screen bg-gray-50 py-10 px-4 flex justify-center">
-    <div v-if="survey" class="w-full max-w-3xl p-8 space-y-8">
+    <div v-if="survey" class="w-full max-w-lg p-8 space-y-8">
       <div class="space-y-6">
         <div v-for="field in survey.fields" :key="field.id" class="space-y-2 pb-4">
-          <h2 class="text-lg font-medium">{{ field.title }}</h2>
+          <h2 class="text-lg font-medium">{{field.id+'.    '+field.title }}</h2>
 
-          <ShortTextField v-if="field.type === 'short_text'" :field="field" :setAnswer="setAnswer"/>
-          <SelectField v-else-if="field.type === 'select'" :field="field" :setAnswer="setAnswer"/>
-          <RadioField v-else-if="field.type === 'radio'" :field="field" :setAnswer="setAnswer"/>
-          <CheckboxField v-else-if="field.type === 'checkbox'" :field="field" :setAnswer="setAnswer"/>
-          <RatingField v-else-if="field.type === 'rating'" :field="field" :setAnswer="setAnswer" :getAnswerValue="getAnswerValue"/>
+          <ShortTextField class="ml-5" v-if="field.type === 'short_text'" :field="field" :setAnswer="setAnswer"/>
+          <SelectField class="ml-5" v-else-if="field.type === 'select'" :field="field" :setAnswer="setAnswer"/>
+          <RadioField class="ml-5" v-else-if="field.type === 'radio'" :field="field" :setAnswer="setAnswer"/>
+          <CheckboxField class="ml-5" v-else-if="field.type === 'checkbox'" :field="field" :setAnswer="setAnswer"/>
+          <RatingField class="ml-5" v-else-if="field.type === 'rating'" :field="field" :setAnswer="setAnswer" :getAnswerValue="getAnswerValue"/>
         </div>
       </div>
 
-      <div class="pt-6">
+      <div class="pt-6 w-full text-right">
         <button
           class="w-auto px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-300"
           @click="submit"

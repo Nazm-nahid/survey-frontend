@@ -31,10 +31,10 @@ async function login() {
              relative"
       style="box-shadow: 0 18px 38px rgba(2,6,23,0.08);"
     >
-      <div class="flex justify-center -mt-12 mb-4">
+      <!-- <div class="flex justify-center -mt-12 mb-4"> -->
         <!-- small top floating indicator like the example (makes card look elevated) -->
-        <img src="https://jorip.pathao.com/_next/static/images/logo_white-512-436d564936f348fec27c83f16fa1b70c.png" class="mb-10 mt-10">
-      </div>
+        <!-- <img src="https://jorip.pathao.com/_next/static/images/logo_white-512-436d564936f348fec27c83f16fa1b70c.png" class="mb-10 mt-10"> -->
+      <!-- </div> -->
 
       <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Login</h2>
 

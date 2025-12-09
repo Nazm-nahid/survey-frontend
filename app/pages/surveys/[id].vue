@@ -10,13 +10,18 @@ import CheckboxField from '~/components/SubmissionFieldTypes/CheckboxField.vue';
 import RatingField from '~/components/SubmissionFieldTypes/RatingField.vue';
 
 const route = useRoute();
+const router = useRouter();
 const store = useSurveyStore();
 
 onMounted(async () => {
   await store.fetchSurvey(Number(route.params.id));
+  token.value = localStorage.getItem('token');
 });
 
 const survey = computed(() => store.survey);
+
+const isSubmitted = ref(false);
+const token = ref(null);
 
 function setAnswer(fieldId , value, type) {
   store.setAnswer(fieldId , value, type);
@@ -30,12 +35,25 @@ function getAnswerValue(fieldId) {
 async function submit() {
   await store.submitSurvey(Number(route.params.id));
   alert("Survey submitted!");
+  isSubmitted.value = true;
 }
 </script>
 
 <template>
+  <AppHeader v-if="token" />
   <div class="min-h-screen bg-gray-50 py-10 px-4 flex justify-center">
-    <div v-if="survey" class="w-full max-w-lg p-8 space-y-8">
+    <div v-if="isSubmitted" class="w-full max-w-lg p-8 space-y-8">
+      Thanks for your submission!!
+      <!-- <div v-if="token" class="pt-6 w-full text-right">
+        <button
+          class="w-auto px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-300"
+          @click="typeof window !== 'undefined'? window.location.reload():null"
+        >
+          Submit another response
+        </button>
+      </div> -->
+    </div>
+    <div v-else-if="survey" class="w-full max-w-lg p-8 space-y-8">
       <div class="space-y-6">
         <div v-for="field in survey.fields" :key="field.id" class="space-y-2 pb-4">
           <h2 class="text-lg font-medium">{{field.id+'.    '+field.title }}</h2>

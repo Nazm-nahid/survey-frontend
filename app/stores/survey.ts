@@ -2,6 +2,12 @@ import { defineStore } from "pinia";
 import { useApi } from "~/composables/useApi";
 import type { SurveyField } from "@/types/SurveyField";
 
+export type Answer = {
+  field_id: number;
+  value: any;
+  type: string;
+};
+
 export const useSurveyStore = defineStore("survey", {
   state: () => ({
     surveys: [] as any[],
@@ -11,7 +17,7 @@ export const useSurveyStore = defineStore("survey", {
     created_by: 1,
     fields: [] as SurveyField[],
     survey: null,     // full survey info
-    answers: [] as { field_id: number; answer: any }[],      // user answers { questionId: value }
+    answers: [] as Answer[],      // user answers { questionId: value }
     loading: false,
   }),
 
@@ -70,16 +76,26 @@ export const useSurveyStore = defineStore("survey", {
       }
     },
 
-    setAnswer(fieldId: number, value: any) {
-      this.answers.push({
+    setAnswer(fieldId: number, value: any, type: string) {
+      const existing = this.answers.find(a => a.field_id === fieldId);
+
+      if (existing) {
+        existing.value = value;
+        existing.type = type;
+      } else {
+        this.answers.push({
           field_id: fieldId,
-          answer: value,
+          value: value,
+          type: type,
         });
+      }
     },
 
     async submitSurvey(id: number) {
       const api = useApi();
-      return api.post(`/api/survey/${id}/submit`, this.answers);
+      return api.post(`/api/survey/${id}/submit`, {
+        submission_fields: this.answers
+      });
     },
   },
 });

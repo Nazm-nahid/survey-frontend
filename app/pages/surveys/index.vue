@@ -73,7 +73,7 @@ const navigateTo = (path) => {
                 Submissions
               </button>
               <button 
-                @click="navigateTo('/surveys/preview/' + s.id)" 
+                @click="navigateTo('/surveys/' + s.id)" 
                 class="bg-purple-500 text-black  py-1 rounded hover:bg-purple-600 text-sm"
               >
                 Preview

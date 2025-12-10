@@ -14,8 +14,8 @@
         <input type="checkbox" v-model="field.is_required" />
         Required
       </label>
-      <label class="flex items-center gap-2 bg-red-200 shadow rounded-lg px-2 text-gray-500">
-        {{field.type}}
+      <label class="flex text-xs items-center gap-2 bg-red-200 shadow rounded-lg px-2 text-gray-500">
+        {{field.type == 'select' ? 'Checkbox' : (field.type.replace(/_/g, ' ')).replace(/^./, c => c.toUpperCase())}}
       </label>
     </div>
 

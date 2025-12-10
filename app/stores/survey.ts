@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { useApi } from "~/composables/useApi";
 import type { SurveyField } from "@/types/SurveyField";
+import type { Survey } from "@/types/Survey";
 
 export type Answer = {
   field_id: number;
@@ -16,7 +17,7 @@ export const useSurveyStore = defineStore("survey", {
     is_live: true,
     created_by: 1,
     fields: [] as SurveyField[],
-    survey: null,     // full survey info
+    survey: null as Survey | null,     // full survey info
     answers: [] as Answer[],      // user answers { questionId: value }
     loading: false,
   }),
@@ -65,6 +66,29 @@ export const useSurveyStore = defineStore("survey", {
       return api.post("/api/survey/create", payload);
     },
 
+    async updateSurvey(id: number, payload: any) {
+      const api = useApi()
+      await api.put(`/api/survey/${id}`, payload)
+    },
+
+    loadSurveyToEditor() {
+      if (!this.survey) return
+
+      // Move survey fields to editor-friendly structure
+      this.fields = this.survey.fields.map(f => ({
+        ...f,
+        local_id: f.local_id ?? Date.now() + Math.random(),
+        options: f.options ? f.options.map(o => ({ ...o })) : [],
+        min: f.min ?? 1,
+        max: f.max ?? 5,
+      }))
+
+      // Also load title/description/etc.
+      this.title = this.survey.title
+      this.description = this.survey.description
+      this.is_live = this.survey.is_live
+      this.created_by = this.survey.created_by
+    },
     async fetchSurvey(id: number) {
       this.loading = true;
       const api = useApi();

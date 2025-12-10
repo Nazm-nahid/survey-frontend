@@ -25,9 +25,12 @@
     </div>
 
     <!-- Submit -->
-    <button @click="create"
-            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-300">
-      Create Survey
+    <button @click="handleSubmission"
+            class="px-4 py-2 text-white rounded"
+            :class="isCreate ? 'bg-red-600 hover:bg-red-300' : 'bg-blue-600 hover:bg-blue-300'"
+    >
+
+      {{ isCreate ? "Create Survey" : "Update Survey" }}
     </button>
 
   </div>
@@ -39,8 +42,26 @@ import { useSurveyStore } from '~/stores/survey'
 
 const store = useSurveyStore();
 
-const create = async () => {
+const props = defineProps({ 
+  isCreate: {type: Boolean , default: true},
+  id: {type: Number, default: null}
+});
+
+const handleSubmission = async () => {
   try {
+    if(!props.isCreate) {
+      store.updateSurvey(
+        props.id,
+        {
+            ID: props.id,
+            title: store.title,
+            description: store.description,
+            is_live: store.is_live,
+            created_by: store.created_by,
+            fields: store.fields
+        })
+        return;
+    }
     store.createSurvey(
         {
             title: store.title,
